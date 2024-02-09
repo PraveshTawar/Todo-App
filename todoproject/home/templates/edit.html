@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}
+    Update Task
+{% endblock title %}
+<!-- {% block navbar %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand fst-italic" href="#">MY TODO APP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          
+        </ul>
+        <form class="d-flex" role="search">
+          
+          <button class="btn btn-outline-success" type="submit"> <a class="text-decoration-none" href="{% url 'log_out' %}">Logout</a></button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+{% endblock navbar %} -->
+
+{% block content %}
+<h1 class="text-center mt-5">TODO list of {{request.user}}</h1>
+<h2 class="text-center"> Update your Task</h2>
+  <form action="{% url 'edit_done' e.id %}" method="post">
+    {% csrf_token %}
+  <div class="mt-5 d-flex justify-content-center">
+  <div class="form-floating mb-3 w-50 ">
+    <input type="text" class="form-control" id="floatingInput" value="{{e.task}}" name="text" required>
+    <label for="floatingInput">Update Task
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary btn-sm rounded" style="height: 55px; width: 100px; margin-left: 2px;">update</button>
+</div>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Todo list {% endblock title %}
+
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand fst-italic" href="#">MY TODO APP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+      <form class="d-flex" role="search">
+        
+        <button class="btn btn-outline-success" type="submit"> <a class="text-decoration-none" href="{% url 'log_out' %}">Logout</a></button>
+      </form>
+    </div>
+  </div>
+</nav>
+  {% endblock navbar %}
+{% block content %}
+
+  <h1 class="text-center mt-5">TODO list of {{request.user}}</h1>
+  <form action="" method="post">
+    {% csrf_token %}
+  <div class="mt-5 d-flex justify-content-center">
+  <div class="form-floating mb-3 w-50 ">
+    <input type="text" class="form-control" id="floatingInput" placeholder="" name="text" required>
+    <label for="floatingInput">Add Today's Task
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary btn-sm rounded" style="height: 55px; width: 100px; margin-left: 2px;">Add</button>
+</div>
+</form>
+
+  <div class="container">
+    {% for todo in res %}
+    <ul class=" list-group w-50 offset-2 ">
+      
+      <li class="d-flex list-group-item mt-2"> <input  type="checkbox" onchange="toggleTodo('{{todo.id}}')" {% if todo.is_completed %} checked {% endif %}>
+        {% if todo.is_completed %}
+        <span class="text-decoration-line-through">{{todo.task}}</span>
+        {% else %}
+        {{todo.task}}
+        
+       {% endif %}
+       <div class="ms-auto">
+        <button class="btn btn-danger btn-sm " ><a href="{% url 'delete' todo.id %}" class="text-decoration-none text-light">Delete</a></button>
+        {% if not todo.is_completed %}
+        <button class="btn btn-secondary btn-sm" ><a href="{% url 'edit' todo.id %}" class="text-decoration-none text-light">Update</a></button>
+        {% endif %}
+      </div>
+      </li>
+        
+      </ul>
+    {% endfor %}
+  </div>
+
+
+<script>
+  function toggleTodo(id){
+    fetch(`/update/?id=${id}`)
+    window.location.reload()
+    // console.log(id)
+  }
+</script>
+{% endblock content %}
